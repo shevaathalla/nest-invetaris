@@ -1,13 +1,13 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Barang {
+export class Item {
   @PrimaryGeneratedColumn()
-  idBarang: number;
+  id: number;
 
   @Column()
-  nama: string;
+  name: string;
 
   @Column()
-  stok: number;
+  stock: number;
 }
