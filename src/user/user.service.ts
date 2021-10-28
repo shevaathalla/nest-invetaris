@@ -12,11 +12,14 @@ export class UserService {
   ) {}
 
   async findAll() {
-    return await this.usersRepository.find();
+    return await this.usersRepository.find({
+      select: ['id', 'email', 'fullname'],
+    });
   }
 
   async findOne(_id: number): Promise<User> {
     return await this.usersRepository.findOne({
+      select: ['id', 'fullname', 'email'],
       where: [{ id: _id }],
     });
   }

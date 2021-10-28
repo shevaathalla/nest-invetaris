@@ -4,8 +4,6 @@
     "port": 3306,
     "username": "root",    
     "database": "nest_inventaris",
-    "entities": [
-        "dist/**/entities/*.entity.js"
-    ],
+    "autoLoadEntities": true,
     "synchronize": true
 }

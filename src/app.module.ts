@@ -6,7 +6,20 @@ import { ItemModule } from './item/item.module';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), UserModule, ItemModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      database: 'nest_inventaris',
+      autoLoadEntities: true,
+      synchronize: true,
+      keepConnectionAlive: true,
+    }),
+    UserModule,
+    ItemModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
