@@ -1,1 +1,4 @@
-export class CreateItemDto {}
+export interface CreateItemDto {
+  name: string;
+  stock: number;
+}

@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpStatus,
+} from '@nestjs/common';
 import { ItemService } from './item.service';
 import { CreateItemDto } from './dto/create-item.dto';
 import { UpdateItemDto } from './dto/update-item.dto';
@@ -8,27 +17,52 @@ export class ItemController {
   constructor(private readonly itemService: ItemService) {}
 
   @Post()
-  create(@Body() createItemDto: CreateItemDto) {
-    return this.itemService.create(createItemDto);
+  async create(@Body() createItemDto: CreateItemDto) {
+    const item = await this.itemService.create(createItemDto);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'item created successfulyy',
+      item,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.itemService.findAll();
+  async findAll() {
+    const items = await this.itemService.findAll();
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'items fetched successfulyy',
+      items,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.itemService.findOne(+id);
+  async findOne(@Param('id') id: number) {
+    const item = await this.itemService.findOne(+id);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'item fetched successfulyy',
+      item,
+    };
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateItemDto: UpdateItemDto) {
-    return this.itemService.update(+id, updateItemDto);
+  async update(@Param('id') id: number, @Body() updateItemDto: UpdateItemDto) {
+    const updatedItem = this.itemService.update(+id, updateItemDto);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'item updated successfulyy',
+      updatedItem,
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.itemService.remove(+id);
+  async remove(@Param('id') id: number) {
+    await this.itemService.remove(+id);
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'item deleted successfulyy',
+    };
   }
 }
