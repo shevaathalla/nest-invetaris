@@ -1,7 +1,9 @@
 {
-    "type": "sqljs",
-    "entities": [
-        "dist/**/entities/**.entity.js"
-    ],
+    "type": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "root",    
+    "database": "nest_inventaris",
+    "autoLoadEntities": true,
     "synchronize": true
 }
