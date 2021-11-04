@@ -48,7 +48,7 @@ export class ItemController {
 
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateItemDto: UpdateItemDto) {
-    const updatedItem = this.itemService.update(+id, updateItemDto);
+    const updatedItem = await this.itemService.update(+id, updateItemDto);
 
     return {
       statusCode: HttpStatus.OK,

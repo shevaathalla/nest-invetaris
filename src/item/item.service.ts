@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateItemDto } from './dto/create-item.dto';
@@ -23,12 +23,24 @@ export class ItemService {
   }
 
   async findOne(id: number) {
-    return await this.itemsRepository.findByIds([id]);
+    try {
+      const item = await this.itemsRepository.findOneOrFail({
+        where: [{ id: id }],
+      });
+      return item;
+    } catch (error) {
+      throw new HttpException('Item not Found', HttpStatus.NOT_FOUND);
+    }
   }
 
   async update(id: number, updateItemDto: UpdateItemDto) {
-    await this.itemsRepository.update({ id }, updateItemDto);
-    return this.itemsRepository.find({ id });
+    try {
+      await this.itemsRepository.findOneOrFail({ id });
+      await this.itemsRepository.update({ id }, updateItemDto);
+      return this.itemsRepository.find({ id });
+    } catch (error) {
+      throw new HttpException('Item not Found', HttpStatus.NOT_FOUND);
+    }
   }
 
   async remove(id: number) {
